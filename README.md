@@ -16,3 +16,9 @@ La documentación estará disponible en `http://127.0.0.1:8000/docs`.
 1. Copia `.env.example` como `.env` si aún no existe.
 2. Configura `DATABASE_URL` con tu PostgreSQL local.
 3. Cuando se publique la aplicación, reemplaza ese valor por la URL de Neon.
+
+# Guardar los requirements
+pip freeze > requirements.txt
+
+## Inicia el servidor:
+uvicorn main:app --reload
