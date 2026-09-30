@@ -6,5 +6,5 @@
 **Modalidad**: Sin IA  
 
 **Integrantes**  
-    - Alvaro Sonco GUzman  
+    - Alvaro Sonco Guzman  
     - Juan Carlos Laura Cespedes
