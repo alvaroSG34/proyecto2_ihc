@@ -28,3 +28,6 @@ pip install "psycopg[binary]"
 
 # PARA GENERAR CLAVE SECRETA
 python -c "import secrets; print(secrets.token_urlsafe(32))"
+
+# JWT Encriptacion
+pip install "passlib[bcrypt]" pyjwt python-multipart

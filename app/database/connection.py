@@ -1,6 +1,12 @@
+from sqlalchemy import create_engine
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
+
 from app.core.config import settings
 
 
-def get_database_url() -> str:
-    """Devuelve la conexión configurada para PostgreSQL local o Neon."""
-    return settings.database_url
+engine = create_engine(settings.database_url)
+SessionLocal = sessionmaker(bind=engine)
+
+
+class Base(DeclarativeBase):
+    pass
