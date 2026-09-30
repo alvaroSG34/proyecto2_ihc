@@ -22,3 +22,9 @@ pip freeze > requirements.txt
 
 ## Inicia el servidor:
 uvicorn main:app --reload
+
+# instalador para postgres
+pip install "psycopg[binary]"
+
+# PARA GENERAR CLAVE SECRETA
+python -c "import secrets; print(secrets.token_urlsafe(32))"
