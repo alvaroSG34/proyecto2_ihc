@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../consts/color.dart';
-<<<<<<< Updated upstream
-=======
 import '../../services/auth_service.dart';
->>>>>>> Stashed changes
 import '../../widgets/boton_guardar.dart';
 import '../../widgets/input.dart';
 import '../home_view/home_view.dart';
@@ -19,21 +16,6 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-<<<<<<< Updated upstream
-  final _correoControlador = TextEditingController();
-  final _contrasenaControlador = TextEditingController();
-
-  @override
-  void dispose() {
-    _correoControlador.dispose();
-    _contrasenaControlador.dispose();
-    super.dispose();
-  }
-
-  void _iniciarSesion() {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => const HomeView()));
-=======
   final _email_controlador = TextEditingController();
   final _password_controlador = TextEditingController();
   final _auth_service = auth_service();
@@ -75,7 +57,6 @@ class _LoginViewState extends State<LoginView> {
   void _mostrar_mensaje(String mensaje) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(mensaje)));
->>>>>>> Stashed changes
   }
 
   @override
@@ -103,22 +84,14 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       Input(
                         etiqueta: 'Email',
-<<<<<<< Updated upstream
-                        controlador: _correoControlador,
-=======
                         controlador: _email_controlador,
->>>>>>> Stashed changes
                         placeholder: 'correo@ejemplo.com',
                         tipoTeclado: TextInputType.emailAddress,
                       ),
 
                       Input(
                         etiqueta: 'Contraseña',
-<<<<<<< Updated upstream
-                        controlador: _contrasenaControlador,
-=======
                         controlador: _password_controlador,
->>>>>>> Stashed changes
                         placeholder: '••••••••',
                         ocultarTexto: true,
                       ),
@@ -128,12 +101,8 @@ class _LoginViewState extends State<LoginView> {
                       Center(
                         child: BotonGuardar(
                           texto: 'Ingresar',
-<<<<<<< Updated upstream
-                          alPresionar: _iniciarSesion,
-=======
                           estaCargando: _esta_cargando,
                           alPresionar: _iniciar_sesion,
->>>>>>> Stashed changes
                         ),
                       ),
 

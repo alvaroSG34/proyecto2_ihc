@@ -1,35 +1,24 @@
 import 'package:flutter/material.dart';
 
 import '../../consts/color.dart';
-<<<<<<< Updated upstream
-import '../../widgets/boton_guardar.dart';
-import '../../widgets/input.dart';
-=======
 import '../../services/auth_service.dart';
 import '../../widgets/boton_guardar.dart';
 import '../../widgets/input.dart';
 import 'login_view.dart';
->>>>>>> Stashed changes
 
 class cambiarContraView extends StatefulWidget {
   const cambiarContraView({
     super.key,
     this.modoRecuperacion = false,
     this.correoRecuperacion,
-<<<<<<< Updated upstream
-=======
     this.tokenRecuperacion,
     this.authService,
->>>>>>> Stashed changes
   });
 
   final bool modoRecuperacion;
   final String? correoRecuperacion;
-<<<<<<< Updated upstream
-=======
   final String? tokenRecuperacion;
   final auth_service? authService;
->>>>>>> Stashed changes
 
   @override
   State<cambiarContraView> createState() => _cambiarContraViewState();
@@ -39,11 +28,8 @@ class _cambiarContraViewState extends State<cambiarContraView> {
   final _contrasenaActualControlador = TextEditingController();
   final _contrasenaNuevaControlador = TextEditingController();
   final _contrasenaCofirmarControlador = TextEditingController();
-<<<<<<< Updated upstream
-=======
   late final auth_service _authService = widget.authService ?? auth_service();
   bool _estaCargando = false;
->>>>>>> Stashed changes
 
   @override
   void dispose() {
@@ -53,11 +39,7 @@ class _cambiarContraViewState extends State<cambiarContraView> {
     super.dispose();
   }
 
-<<<<<<< Updated upstream
-  void _cambiarContrasena() {
-=======
   Future<void> _cambiarContrasena() async {
->>>>>>> Stashed changes
     final contrasenaActual = _contrasenaActualControlador.text;
     final contrasenaNueva = _contrasenaNuevaControlador.text;
     final contrasenaConfirmar = _contrasenaCofirmarControlador.text;
@@ -84,11 +66,6 @@ class _cambiarContraViewState extends State<cambiarContraView> {
       return;
     }
 
-<<<<<<< Updated upstream
-    _mostrarMensaje(
-      'Demostración: la contraseña se validó, pero no se guardó.',
-    );
-=======
     setState(() => _estaCargando = true);
     try {
       if (widget.modoRecuperacion) {
@@ -123,7 +100,6 @@ class _cambiarContraViewState extends State<cambiarContraView> {
     } finally {
       if (mounted) setState(() => _estaCargando = false);
     }
->>>>>>> Stashed changes
   }
 
   void _mostrarMensaje(String mensaje) {
@@ -182,10 +158,7 @@ class _cambiarContraViewState extends State<cambiarContraView> {
                           texto: widget.modoRecuperacion
                               ? 'Restablecer contraseña'
                               : 'Cambiar contraseña',
-<<<<<<< Updated upstream
-=======
                           estaCargando: _estaCargando,
->>>>>>> Stashed changes
                           alPresionar: _cambiarContrasena,
                         ),
                       ),

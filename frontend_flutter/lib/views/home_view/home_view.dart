@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../consts/color.dart';
-<<<<<<< Updated upstream
-
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
-=======
 import '../../models/usuario.dart';
 import '../../services/auth_service.dart';
 import '../autenticacion/cambiar_contraseña.dart';
@@ -16,7 +11,6 @@ class HomeView extends StatelessWidget {
 
   final usuario user;
   final auth_service authService;
->>>>>>> Stashed changes
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +20,6 @@ class HomeView extends StatelessWidget {
         title: const Text('Inicio'),
         backgroundColor: white,
         foregroundColor: Jetblack,
-<<<<<<< Updated upstream
-=======
         actions: [
           IconButton(
             tooltip: 'Cambiar contraseña',
@@ -51,7 +43,6 @@ class HomeView extends StatelessWidget {
             icon: const Icon(Icons.logout),
           ),
         ],
->>>>>>> Stashed changes
       ),
       body: SafeArea(
         child: Center(
@@ -68,22 +59,14 @@ class HomeView extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 Text(
-<<<<<<< Updated upstream
-                  '¡Bienvenido!',
-=======
                   '¡Bienvenido, ${user.nombre}!',
->>>>>>> Stashed changes
                   style: Theme.of(context).textTheme.headlineMedium
                       ?.copyWith(color: Jetblack, fontWeight: FontWeight.w600),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
-<<<<<<< Updated upstream
-                  'Ya estás en el inicio.',
-=======
                   user.email,
->>>>>>> Stashed changes
                   style: Theme.of(context).textTheme.bodyLarge
                       ?.copyWith(color: Blueslate),
                   textAlign: TextAlign.center,

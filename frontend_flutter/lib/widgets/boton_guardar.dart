@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../consts/color.dart';
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 class BotonGuardar extends StatelessWidget {
   const BotonGuardar({
     super.key,
@@ -55,20 +51,10 @@ class BotonGuardar extends StatelessWidget {
                     height: 18,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-<<<<<<< Updated upstream
-                : Text(
-                    texto,
-                  ),
-=======
                 : Text(texto, textAlign: TextAlign.center),
->>>>>>> Stashed changes
           ),
         ),
       ),
     );
   }
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

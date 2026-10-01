@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-=======
 
 import 'models/usuario.dart';
 import 'services/auth_service.dart';
 import 'views/home_view/home_view.dart';
->>>>>>> Stashed changes
 import 'views/autenticacion/login_view.dart';
 
 void main() {
@@ -14,25 +11,15 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-<<<<<<< Updated upstream
-  const MyApp({super.key});
-=======
   const MyApp({super.key, this.authService});
 
   final auth_service? authService;
->>>>>>> Stashed changes
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Inicio',
-<<<<<<< Updated upstream
-      home: const LoginView(),
-    );
-  }
-}
-=======
       home: SessionGate(authService: authService),
     );
   }
@@ -76,4 +63,3 @@ class _SessionGateState extends State<SessionGate> {
     );
   }
 }
->>>>>>> Stashed changes
