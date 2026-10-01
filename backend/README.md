@@ -4,8 +4,25 @@ Aplicación para crear partidos y completar equipos.
 
 ## Iniciar el backend
 
+Primero crea el entorno virtual:
+
+```bash
+python -m venv .venv
+```
+
+Actívalo según tu sistema operativo:
+
 ```powershell
 .\.venv\Scripts\Activate.ps1
+```
+
+```bash
+source .venv/bin/activate
+```
+
+Después, inicia el backend:
+
+```bash
 uvicorn app.main:app --reload
 ```
 
@@ -28,3 +45,10 @@ pip install "psycopg[binary]"
 
 # PARA GENERAR CLAVE SECRETA
 python -c "import secrets; print(secrets.token_urlsafe(32))"
+
+# JWT Encriptacion
+pip install "passlib[bcrypt]" pyjwt python-multipart
+
+# PARA CAMBIOS EN LA BASE DE DATOS
+alembic revision --autogenerate -m "describe el cambio"
+alembic upgrade head
