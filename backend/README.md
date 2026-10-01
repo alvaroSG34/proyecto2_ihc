@@ -38,7 +38,7 @@ La documentación estará disponible en `http://127.0.0.1:8000/docs`.
 pip freeze > requirements.txt
 
 ## Inicia el servidor:
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 
 # instalador para postgres
 pip install "psycopg[binary]"

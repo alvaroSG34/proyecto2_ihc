@@ -14,6 +14,12 @@ class UsuarioResponse(BaseModel):
     email: str
 
 
+class AuthTokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    usuario: UsuarioResponse
+
+
 class LoginRequest(BaseModel):
     email: str
     password: str
@@ -25,4 +31,9 @@ class RecuperarPassword(BaseModel):
 
 class CambiarPassword(BaseModel):
     token: str
+    nueva_password: str
+
+
+class CambiarPasswordAutenticado(BaseModel):
+    contrasena_actual: str
     nueva_password: str
