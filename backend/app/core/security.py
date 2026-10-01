@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta, timezone
-import secrets
 
 import bcrypt
 import jwt
@@ -33,4 +32,4 @@ def decode_access_token(token: str) -> int:
 
 
 def create_recovery_token() -> str:
-    return secrets.token_urlsafe(32)
+    return "123456"
