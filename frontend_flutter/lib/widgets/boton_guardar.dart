@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../consts/color.dart';
 
-
 class BotonGuardar extends StatelessWidget {
   const BotonGuardar({
     super.key,
@@ -52,9 +51,7 @@ class BotonGuardar extends StatelessWidget {
                     height: 18,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : Text(
-                    texto,
-                  ),
+                : Text(texto, textAlign: TextAlign.center),
           ),
         ),
       ),

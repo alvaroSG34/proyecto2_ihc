@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../consts/color.dart';
+import '../../services/auth_service.dart';
 import '../../widgets/boton_guardar.dart';
 import '../../widgets/input.dart';
 import 'cambiar_contraseña.dart';
@@ -13,11 +14,12 @@ class OlvideContrasenaView extends StatefulWidget {
 }
 
 class _OlvideContrasenaViewState extends State<OlvideContrasenaView> {
-  static const _codigoDemo = '123456';
-
   final _correoControlador = TextEditingController();
   final _codigoControlador = TextEditingController();
+  final _authService = auth_service();
   bool _codigoEnviado = false;
+  bool _estaCargando = false;
+  String? _tokenRecuperacion;
 
   @override
   void dispose() {
@@ -30,27 +32,19 @@ class _OlvideContrasenaViewState extends State<OlvideContrasenaView> {
     final correo = _correoControlador.text.trim();
 
     if (!_codigoEnviado) {
-      if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(correo)) {
-        _mostrarMensaje('Ingresa un correo electrónico válido.');
-        return;
-      }
 
-      setState(() => _codigoEnviado = true);
-      await showDialog<void>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Código de demostración'),
-          content: const Text(
-            'No se envió un correo. Usa este código para continuar: 123456',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Entendido'),
-            ),
-          ],
-        ),
-      );
+
+      setState(() => _estaCargando = true);
+      try {
+        _tokenRecuperacion = await _authService.recuperarPassword(correo);
+        if (!mounted) return;
+        setState(() => _codigoEnviado = true);
+        _mostrarMensaje('Código enviado. Usa el código 123456.');
+      } catch (error) {
+        _mostrarMensaje(error.toString().replaceFirst('Exception: ', ''));
+      } finally {
+        if (mounted) setState(() => _estaCargando = false);
+      }
       return;
     }
 
@@ -59,7 +53,7 @@ class _OlvideContrasenaViewState extends State<OlvideContrasenaView> {
       return;
     }
 
-    if (_codigoControlador.text.trim() != _codigoDemo) {
+    if (_codigoControlador.text.trim() != _tokenRecuperacion) {
       _mostrarMensaje('El codigo ingresado no es correcto.');
       return;
     }
@@ -69,6 +63,7 @@ class _OlvideContrasenaViewState extends State<OlvideContrasenaView> {
         builder: (_) => cambiarContraView(
           modoRecuperacion: true,
           correoRecuperacion: correo,
+          tokenRecuperacion: _tokenRecuperacion,
         ),
       ),
     );
@@ -94,16 +89,14 @@ class _OlvideContrasenaViewState extends State<OlvideContrasenaView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: 16,
             children: [
-
-
-                Center(
-                        child: Image.asset(
-                          'assets/icons/llave.png',
-                          width: 166,
-                          height: 216,
-                          semanticLabel: 'Ilustración de usuario',
-                        ),
-                      ),
+              Center(
+                child: Image.asset(
+                  'assets/icons/llave.png',
+                  width: 166,
+                  height: 216,
+                  semanticLabel: 'Ilustración de usuario',
+                ),
+              ),
               Input(
                 etiqueta: 'Email',
                 controlador: _correoControlador,
@@ -122,6 +115,7 @@ class _OlvideContrasenaViewState extends State<OlvideContrasenaView> {
               Center(
                 child: BotonGuardar(
                   texto: _codigoEnviado ? 'Verificar codigo' : 'Continuar',
+                  estaCargando: _estaCargando,
                   alPresionar: _continuar,
                 ),
               ),

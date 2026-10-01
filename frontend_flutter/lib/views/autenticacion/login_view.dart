@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../consts/color.dart';
+import '../../services/auth_service.dart';
 import '../../widgets/boton_guardar.dart';
 import '../../widgets/input.dart';
 import '../home_view/home_view.dart';
@@ -15,19 +16,47 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final _correoControlador = TextEditingController();
-  final _contrasenaControlador = TextEditingController();
+  final _email_controlador = TextEditingController();
+  final _password_controlador = TextEditingController();
+  final _auth_service = auth_service();
+  bool _esta_cargando = false;
 
   @override
   void dispose() {
-    _correoControlador.dispose();
-    _contrasenaControlador.dispose();
+    _email_controlador.dispose();
+    _password_controlador.dispose();
     super.dispose();
   }
 
-  void _iniciarSesion() {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => const HomeView()));
+  Future<void> _iniciar_sesion() async {
+    final email = _email_controlador.text.trim();
+    final password = _password_controlador.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      _mostrar_mensaje('completa el email y la contraseña.');
+      return;
+    }
+
+    setState(() => _esta_cargando = true);
+
+    try {
+      final user = await _auth_service.login(email, password);
+      if (!mounted) return;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => HomeView(user: user, authService: _auth_service),
+        ),
+      );
+    } catch (error) {
+      _mostrar_mensaje(error.toString().replaceFirst('Exception: ', ''));
+    } finally {
+      if (mounted) setState(() => _esta_cargando = false);
+    }
+  }
+
+  void _mostrar_mensaje(String mensaje) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(mensaje)));
   }
 
   @override
@@ -55,14 +84,14 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       Input(
                         etiqueta: 'Email',
-                        controlador: _correoControlador,
+                        controlador: _email_controlador,
                         placeholder: 'correo@ejemplo.com',
                         tipoTeclado: TextInputType.emailAddress,
                       ),
 
                       Input(
                         etiqueta: 'Contraseña',
-                        controlador: _contrasenaControlador,
+                        controlador: _password_controlador,
                         placeholder: '••••••••',
                         ocultarTexto: true,
                       ),
@@ -72,7 +101,8 @@ class _LoginViewState extends State<LoginView> {
                       Center(
                         child: BotonGuardar(
                           texto: 'Ingresar',
-                          alPresionar: _iniciarSesion,
+                          estaCargando: _esta_cargando,
+                          alPresionar: _iniciar_sesion,
                         ),
                       ),
 
