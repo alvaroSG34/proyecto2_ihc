@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import '../../consts/color.dart';
 import '../../models/usuario.dart';
+=======
+
+import '../../consts/color.dart';
+import '../../services/auth_service.dart';
+>>>>>>> Stashed changes
 import '../../widgets/boton_guardar.dart';
 import '../../widgets/input.dart';
 import '../home_view/home_view.dart';
@@ -13,6 +19,7 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+<<<<<<< Updated upstream
   final _correoControlador = TextEditingController();
   final _contrasenaControlador = TextEditingController();
   final _fechaNacimientoControlador = TextEditingController();
@@ -52,10 +59,36 @@ class _RegisterViewState extends State<RegisterView> {
     if (correo.isEmpty ||
         contrasena.isEmpty ||
         _fechaNacimiento == null) {
+=======
+  final _nombre_controlador = TextEditingController();
+  final _email_controlador = TextEditingController();
+  final _password_controlador = TextEditingController();
+  final _telefono_controlador = TextEditingController();
+  final _auth_service = auth_service();
+  bool _esta_cargando = false;
+
+  @override
+  void dispose() {
+    _nombre_controlador.dispose();
+    _email_controlador.dispose();
+    _password_controlador.dispose();
+    _telefono_controlador.dispose();
+    super.dispose();
+  }
+
+  Future<void> _registrar() async {
+    final nombre = _nombre_controlador.text.trim();
+    final email = _email_controlador.text.trim();
+    final password = _password_controlador.text;
+    final telefono = _telefono_controlador.text.trim();
+
+    if (nombre.isEmpty || email.isEmpty || password.isEmpty) {
+>>>>>>> Stashed changes
       _mostrarMensaje('Completa los campos obligatorios.');
       return;
     }
 
+<<<<<<< Updated upstream
     
   }
 
@@ -63,6 +96,33 @@ class _RegisterViewState extends State<RegisterView> {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(mensaje)));
+=======
+    setState(() => _esta_cargando = true);
+
+    try {
+      final user = await _auth_service.registro(
+        nombre,
+        email,
+        password,
+        telefono.isEmpty ? null : telefono,
+      );
+      if (!mounted) return;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => HomeView(user: user, authService: _auth_service),
+        ),
+      );
+    } catch (error) {
+      _mostrarMensaje(error.toString().replaceFirst('Exception: ', ''));
+    } finally {
+      if (mounted) setState(() => _esta_cargando = false);
+    }
+  }
+
+  void _mostrarMensaje(String mensaje) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(mensaje)));
+>>>>>>> Stashed changes
   }
 
   @override
@@ -73,7 +133,10 @@ class _RegisterViewState extends State<RegisterView> {
         child: Column(
           children: [
             Expanded(
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -83,6 +146,7 @@ class _RegisterViewState extends State<RegisterView> {
                     children: [
                       const SizedBox(height: 8),
                       Input(
+<<<<<<< Updated upstream
                         etiqueta: 'Email',
                         controlador: _correoControlador,
                         placeholder: 'correo@ejemplo.com',
@@ -107,6 +171,30 @@ class _RegisterViewState extends State<RegisterView> {
                       Input(
                         etiqueta: 'Teléfono',
                         controlador: _telefonoControlador,
+=======
+                        etiqueta: 'Nombre',
+                        controlador: _nombre_controlador,
+                        placeholder: 'Tu nombre',
+                      ),
+
+                      Input(
+                        etiqueta: 'Email',
+                        controlador: _email_controlador,
+                        placeholder: 'correo@ejemplo.com',
+                        tipoTeclado: TextInputType.emailAddress,
+                      ),
+
+                      Input(
+                        etiqueta: 'Contraseña',
+                        controlador: _password_controlador,
+                        placeholder: '••••••••',
+                        ocultarTexto: true,
+                      ),
+
+                      Input(
+                        etiqueta: 'Teléfono',
+                        controlador: _telefono_controlador,
+>>>>>>> Stashed changes
                         placeholder: '00000000',
                         tipoTeclado: TextInputType.phone,
                       ),
@@ -114,6 +202,7 @@ class _RegisterViewState extends State<RegisterView> {
                       Center(
                         child: BotonGuardar(
                           texto: 'Registrarme',
+<<<<<<< Updated upstream
                           estaCargando: _estaCargando,
                           alPresionar: _registrar,
                         ),
@@ -132,6 +221,20 @@ class _RegisterViewState extends State<RegisterView> {
                                 'Inicia Sesion',
                              
                               ),
+=======
+                          estaCargando: _esta_cargando,
+                          alPresionar: _registrar,
+                        ),
+                      ),
+
+                      Center(
+                        child: Wrap(
+                          children: [
+                            Text('Ya tienes Cuenta? '),
+                            InkWell(
+                              onTap: () => Navigator.of(context).pop(),
+                              child: Text('Inicia Sesion'),
+>>>>>>> Stashed changes
                             ),
                           ],
                         ),
@@ -146,4 +249,8 @@ class _RegisterViewState extends State<RegisterView> {
       ),
     );
   }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes
