@@ -1,9 +1,12 @@
 from fastapi import APIRouter
+from fastapi import Depends
+
+from app.database.models import Usuario
+from app.modules.auth.service import get_current_user
 
 router = APIRouter(prefix="/api/partidos", tags=["Partidos"])
 
 
-@router.get("/estado")
-def estado_partidos():
-    """La ruta privada /mis-partidos se añadirá tras implementar la sesión."""
-    return {"modulo": "partidos", "estado": "pendiente de implementación"}
+@router.get("/mis-partidos")
+def mis_partidos(usuario: Usuario = Depends(get_current_user)):
+    return {"nombre": usuario.nombre, "partidos": []}

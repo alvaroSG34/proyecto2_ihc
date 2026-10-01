@@ -1,4 +1,6 @@
-from sqlalchemy import String
+from datetime import datetime
+
+from sqlalchemy import DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.database.connection import Base
@@ -11,6 +13,6 @@ class Usuario(Base):
     nombre: Mapped[str] = mapped_column(String(100))
     email: Mapped[str] = mapped_column(String(120), unique=True)
     password_hash: Mapped[str] = mapped_column(String(255))
-    telefono: Mapped[str] = mapped_column(String(20))
+    telefono: Mapped[str | None] = mapped_column(String(20), nullable=True)
     token_recuperacion: Mapped[str] = mapped_column(String(255), nullable=True)
-    token_expiracion: Mapped[str] = mapped_column(String(255), nullable=True)
+    token_expiracion: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
