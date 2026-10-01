@@ -10,7 +10,6 @@ class BotonGuardar extends StatelessWidget {
     this.estaCargando = false,
     this.anchoCompleto = false,
     this.colorFondo = CoralgLow,
-    this.colorTexto = Colors.black,
     this.alto = 46,
     this.radio = 10,
     this.conSombra = false,
@@ -21,7 +20,6 @@ class BotonGuardar extends StatelessWidget {
   final bool estaCargando;
   final bool anchoCompleto;
   final Color colorFondo;
-  final Color colorTexto;
   final double alto;
   final double radio;
   final bool conSombra;

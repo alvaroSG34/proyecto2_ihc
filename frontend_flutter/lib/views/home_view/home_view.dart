@@ -9,8 +9,8 @@ import '../autenticacion/login_view.dart';
 class HomeView extends StatelessWidget {
   const HomeView({super.key, required this.user, required this.authService});
 
-  final usuario user;
-  final auth_service authService;
+  final Usuario user;
+  final AuthService authService;
 
   @override
   Widget build(BuildContext context) {

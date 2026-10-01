@@ -16,7 +16,7 @@ class OlvideContrasenaView extends StatefulWidget {
 class _OlvideContrasenaViewState extends State<OlvideContrasenaView> {
   final _correoControlador = TextEditingController();
   final _codigoControlador = TextEditingController();
-  final _authService = auth_service();
+  final _authService = AuthService();
   bool _codigoEnviado = false;
   bool _estaCargando = false;
   String? _tokenRecuperacion;
@@ -32,8 +32,6 @@ class _OlvideContrasenaViewState extends State<OlvideContrasenaView> {
     final correo = _correoControlador.text.trim();
 
     if (!_codigoEnviado) {
-
-
       setState(() => _estaCargando = true);
       try {
         _tokenRecuperacion = await _authService.recuperarPassword(correo);

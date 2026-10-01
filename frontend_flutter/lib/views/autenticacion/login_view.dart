@@ -18,7 +18,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _email_controlador = TextEditingController();
   final _password_controlador = TextEditingController();
-  final _auth_service = auth_service();
+  final _auth_service = AuthService();
   bool _esta_cargando = false;
 
   @override

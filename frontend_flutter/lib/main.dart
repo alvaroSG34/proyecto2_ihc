@@ -13,7 +13,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key, this.authService});
 
-  final auth_service? authService;
+  final AuthService? authService;
 
   @override
   Widget build(BuildContext context) {
@@ -28,26 +28,26 @@ class MyApp extends StatelessWidget {
 class SessionGate extends StatefulWidget {
   const SessionGate({super.key, this.authService});
 
-  final auth_service? authService;
+  final AuthService? authService;
 
   @override
   State<SessionGate> createState() => _SessionGateState();
 }
 
 class _SessionGateState extends State<SessionGate> {
-  late final auth_service _authService;
-  late final Future<usuario?> _userFuture;
+  late final AuthService _authService;
+  late final Future<Usuario?> _userFuture;
 
   @override
   void initState() {
     super.initState();
-    _authService = widget.authService ?? auth_service();
+    _authService = widget.authService ?? AuthService();
     _userFuture = _authService.currentUser();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<usuario?>(
+    return FutureBuilder<Usuario?>(
       future: _userFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {

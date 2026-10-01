@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-import '../../consts/color.dart';
-import '../../models/usuario.dart';
-=======
 
 import '../../consts/color.dart';
 import '../../services/auth_service.dart';
->>>>>>> Stashed changes
 import '../../widgets/boton_guardar.dart';
 import '../../widgets/input.dart';
 import '../home_view/home_view.dart';
@@ -19,52 +14,11 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-<<<<<<< Updated upstream
-  final _correoControlador = TextEditingController();
-  final _contrasenaControlador = TextEditingController();
-  final _fechaNacimientoControlador = TextEditingController();
-  final _telefonoControlador = TextEditingController();
-  DateTime? _fechaNacimiento;
-  bool _estaCargando = false;
-
-  @override
-  void dispose() {
-    _correoControlador.dispose();
-    _contrasenaControlador.dispose();
-    _fechaNacimientoControlador.dispose();
-    _telefonoControlador.dispose();
-    super.dispose();
-  }
-
-  Future<void> _seleccionarFecha() async {
-    final fecha = await showDatePicker(
-      context: context,
-      initialDate: _fechaNacimiento ?? DateTime(2000),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (fecha == null) return;
-
-    setState(() {
-      _fechaNacimiento = fecha;
-      _fechaNacimientoControlador.text =
-          '${fecha.day.toString().padLeft(2, '0')}/${fecha.month.toString().padLeft(2, '0')}/${fecha.year}';
-    });
-  }
-
-  Future<void> _registrar() async {
-    final correo = _correoControlador.text.trim();
-    final contrasena = _contrasenaControlador.text;
-
-    if (correo.isEmpty ||
-        contrasena.isEmpty ||
-        _fechaNacimiento == null) {
-=======
   final _nombre_controlador = TextEditingController();
   final _email_controlador = TextEditingController();
   final _password_controlador = TextEditingController();
   final _telefono_controlador = TextEditingController();
-  final _auth_service = auth_service();
+  final _auth_service = AuthService();
   bool _esta_cargando = false;
 
   @override
@@ -83,20 +37,10 @@ class _RegisterViewState extends State<RegisterView> {
     final telefono = _telefono_controlador.text.trim();
 
     if (nombre.isEmpty || email.isEmpty || password.isEmpty) {
->>>>>>> Stashed changes
       _mostrarMensaje('Completa los campos obligatorios.');
       return;
     }
 
-<<<<<<< Updated upstream
-    
-  }
-
-  void _mostrarMensaje(String mensaje) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(mensaje)));
-=======
     setState(() => _esta_cargando = true);
 
     try {
@@ -122,7 +66,6 @@ class _RegisterViewState extends State<RegisterView> {
   void _mostrarMensaje(String mensaje) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(mensaje)));
->>>>>>> Stashed changes
   }
 
   @override
@@ -133,10 +76,6 @@ class _RegisterViewState extends State<RegisterView> {
         child: Column(
           children: [
             Expanded(
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -146,32 +85,6 @@ class _RegisterViewState extends State<RegisterView> {
                     children: [
                       const SizedBox(height: 8),
                       Input(
-<<<<<<< Updated upstream
-                        etiqueta: 'Email',
-                        controlador: _correoControlador,
-                        placeholder: 'correo@ejemplo.com',
-                        tipoTeclado: TextInputType.emailAddress,
-                      ),
-           
-                      Input(
-                        etiqueta: 'Contraseña',
-                        controlador: _contrasenaControlador,
-                        placeholder: '••••••••',
-                        ocultarTexto: true,
-                      ),
-                 
-                      Input(
-                        etiqueta: 'Fecha de nacimiento',
-                        controlador: _fechaNacimientoControlador,
-                        placeholder: 'Selecciona una fecha',
-                        soloLectura: true,
-                        alTocar: _seleccionarFecha,
-                      ),
-                  
-                      Input(
-                        etiqueta: 'Teléfono',
-                        controlador: _telefonoControlador,
-=======
                         etiqueta: 'Nombre',
                         controlador: _nombre_controlador,
                         placeholder: 'Tu nombre',
@@ -194,7 +107,6 @@ class _RegisterViewState extends State<RegisterView> {
                       Input(
                         etiqueta: 'Teléfono',
                         controlador: _telefono_controlador,
->>>>>>> Stashed changes
                         placeholder: '00000000',
                         tipoTeclado: TextInputType.phone,
                       ),
@@ -202,26 +114,6 @@ class _RegisterViewState extends State<RegisterView> {
                       Center(
                         child: BotonGuardar(
                           texto: 'Registrarme',
-<<<<<<< Updated upstream
-                          estaCargando: _estaCargando,
-                          alPresionar: _registrar,
-                        ),
-                      ),
-               
-                      Center(
-                        child: Wrap(
-                          children: [
-                            Text(
-                              'Ya tienes Cuenta? ',
-                         
-                            ),
-                            InkWell(
-                              onTap: () => Navigator.of(context).pop(),
-                              child: Text(
-                                'Inicia Sesion',
-                             
-                              ),
-=======
                           estaCargando: _esta_cargando,
                           alPresionar: _registrar,
                         ),
@@ -234,7 +126,6 @@ class _RegisterViewState extends State<RegisterView> {
                             InkWell(
                               onTap: () => Navigator.of(context).pop(),
                               child: Text('Inicia Sesion'),
->>>>>>> Stashed changes
                             ),
                           ],
                         ),
@@ -249,8 +140,4 @@ class _RegisterViewState extends State<RegisterView> {
       ),
     );
   }
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

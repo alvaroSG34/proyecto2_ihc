@@ -27,8 +27,8 @@ class SecureTokenStorage implements TokenStorage {
   Future<void> delete() => _storage.delete(key: _storageKey);
 }
 
-class auth_service {
-  auth_service({http.Client? client, TokenStorage? storage, String? baseUrl})
+class AuthService {
+  AuthService({http.Client? client, TokenStorage? storage, String? baseUrl})
     : _client = client ?? http.Client(),
       _storage = storage ?? SecureTokenStorage(),
       _baseUrl = (baseUrl ?? apiBaseUrl).replaceFirst(RegExp(r'/$'), '');
@@ -37,27 +37,27 @@ class auth_service {
   final TokenStorage _storage;
   final String _baseUrl;
 
-  Future<usuario> login(String email, String password) async {
-    final body = login_request(email: email, password: password).tojson();
+  Future<Usuario> login(String email, String password) async {
+    final body = LoginRequest(email: email, password: password).toJson();
     return _authenticate('login', body, expectedStatus: 200);
   }
 
-  Future<usuario> registro(
+  Future<Usuario> registro(
     String nombre,
     String email,
     String password,
     String? telefono,
   ) async {
-    final body = registro_request(
+    final body = RegistroRequest(
       nombre: nombre,
       email: email,
       password: password,
       telefono: telefono,
-    ).tojson();
+    ).toJson();
     return _authenticate('registro', body, expectedStatus: 201);
   }
 
-  Future<usuario> _authenticate(
+  Future<Usuario> _authenticate(
     String path,
     Map<String, dynamic> body, {
     required int expectedStatus,
@@ -72,11 +72,11 @@ class auth_service {
       throw Exception(obtener_mensaje_error(response.body));
     }
 
-    final authResponse = AuthResponse.fromjson(
+    final authResponse = AuthResponse.fromJson(
       jsonDecode(response.body) as Map<String, dynamic>,
     );
     await _storage.write(authResponse.accessToken);
-    return authResponse.usuarioAutenticado;
+    return authResponse.usuario;
   }
 
   Future<String> recuperarPassword(String email) async {
@@ -135,7 +135,7 @@ class auth_service {
     }
   }
 
-  Future<usuario?> currentUser() async {
+  Future<Usuario?> currentUser() async {
     final token = await _storage.read();
     if (token == null || token.isEmpty) return null;
 
@@ -152,7 +152,7 @@ class auth_service {
       throw Exception(obtener_mensaje_error(response.body));
     }
 
-    return usuario.fromjson(jsonDecode(response.body) as Map<String, dynamic>);
+    return Usuario.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<void> logout() => _storage.delete();

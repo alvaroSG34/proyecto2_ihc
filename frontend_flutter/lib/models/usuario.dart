@@ -1,75 +1,65 @@
-class usuario {
+class Usuario {
   final int id;
   final String nombre;
   final String email;
 
-  usuario({required this.id, required this.nombre, required this.email});
+  const Usuario({required this.id, required this.nombre, required this.email});
 
-  factory usuario.fromjson(Map<String, dynamic> json) {
-    return usuario(
+  factory Usuario.fromJson(Map<String, dynamic> json) {
+    return Usuario(
       id: json['id'] as int,
       nombre: json['nombre'] as String,
       email: json['email'] as String,
     );
-  }
-
-  Map<String, dynamic> tojson() {
-    return {'id': id, 'nombre': nombre, 'email': email};
   }
 }
 
 class AuthResponse {
   final String accessToken;
   final String tokenType;
-  final usuario usuarioAutenticado;
+  final Usuario usuario;
 
-  AuthResponse({
+  const AuthResponse({
     required this.accessToken,
     required this.tokenType,
-    required this.usuarioAutenticado,
+    required this.usuario,
   });
 
-  factory AuthResponse.fromjson(Map<String, dynamic> json) {
+  factory AuthResponse.fromJson(Map<String, dynamic> json) {
     return AuthResponse(
       accessToken: json['access_token'] as String,
-      tokenType: json['token_type'] as String,
-      usuarioAutenticado: usuario.fromjson(
-        json['usuario'] as Map<String, dynamic>,
-      ),
+      tokenType: json['token_type'] as String? ?? 'bearer',
+      usuario: Usuario.fromJson(json['usuario'] as Map<String, dynamic>),
     );
   }
 }
 
-class login_request {
+class LoginRequest {
   final String email;
   final String password;
 
-  login_request({required this.email, required this.password});
+  const LoginRequest({required this.email, required this.password});
 
-  Map<String, dynamic> tojson() {
-    return {'email': email, 'password': password};
-  }
+  Map<String, dynamic> toJson() => {'email': email, 'password': password};
 }
 
-class registro_request {
+class RegistroRequest {
   final String nombre;
   final String email;
   final String password;
   final String? telefono;
 
-  registro_request({
+  const RegistroRequest({
     required this.nombre,
     required this.email,
     required this.password,
     this.telefono,
   });
 
-  Map<String, dynamic> tojson() {
-    return {
-      'nombre': nombre,
-      'email': email,
-      'password': password,
-      'telefono': telefono,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+    'nombre': nombre,
+    'email': email,
+    'password': password,
+    'telefono': telefono,
+  };
 }

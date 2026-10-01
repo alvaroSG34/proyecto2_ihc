@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../consts/color.dart';
 
-
 class Input extends StatelessWidget {
   const Input({
     super.key,
@@ -11,7 +10,6 @@ class Input extends StatelessWidget {
     this.placeholder,
     this.tipoTeclado,
     this.soloLectura = false,
-    this.unidad,
     this.mensajeError,
     this.nodoFoco,
     this.alTocar,
@@ -24,7 +22,6 @@ class Input extends StatelessWidget {
   final String? placeholder;
   final TextInputType? tipoTeclado;
   final bool soloLectura;
-  final String? unidad;
   final String? mensajeError;
   final FocusNode? nodoFoco;
   final VoidCallback? alTocar;
@@ -38,9 +35,7 @@ class Input extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          etiqueta,
-        ),
+        Text(etiqueta),
         const SizedBox(height: 7),
         SizedBox(
           height: 52,
@@ -60,7 +55,7 @@ class Input extends StatelessWidget {
                 minWidth: 48,
                 minHeight: 52,
               ),
-             
+
               isDense: true,
               filled: true,
               fillColor: white,
@@ -68,17 +63,10 @@ class Input extends StatelessWidget {
                 horizontal: 14,
                 vertical: 13,
               ),
-                 
-              
             ),
           ),
         ),
-        if (tieneError) ...[
-          const SizedBox(height: 8),
-          Text(
-            mensajeError!,
-          ),
-        ],
+        if (tieneError) ...[const SizedBox(height: 8), Text(mensajeError!)],
       ],
     );
   }

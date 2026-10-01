@@ -39,7 +39,7 @@ void main() {
       });
       return http.Response(jsonEncode(authResponse), 200);
     });
-    final service = auth_service(
+    final service = AuthService(
       client: client,
       storage: storage,
       baseUrl: 'http://localhost:8000/',
@@ -57,7 +57,7 @@ void main() {
       expect(request.url.path, '/api/auth/registro');
       return http.Response(jsonEncode(authResponse), 201);
     });
-    final service = auth_service(client: client, storage: storage);
+    final service = AuthService(client: client, storage: storage);
 
     await service.registro('Ada', 'ada@example.com', 'secret', null);
 
@@ -74,7 +74,7 @@ void main() {
         200,
       );
     });
-    final service = auth_service(client: client, storage: storage);
+    final service = AuthService(client: client, storage: storage);
 
     final user = await service.currentUser();
 
@@ -83,7 +83,7 @@ void main() {
 
   test('currentUser clears a token rejected by the backend', () async {
     final storage = MemoryTokenStorage()..token = 'expired-token';
-    final service = auth_service(
+    final service = AuthService(
       client: MockClient((_) async => http.Response('{}', 401)),
       storage: storage,
     );
@@ -94,7 +94,7 @@ void main() {
 
   test('logout removes the locally stored token', () async {
     final storage = MemoryTokenStorage()..token = 'jwt-token';
-    final service = auth_service(storage: storage);
+    final service = AuthService(storage: storage);
 
     await service.logout();
 
@@ -110,7 +110,7 @@ void main() {
         200,
       );
     });
-    final service = auth_service(client: client);
+    final service = AuthService(client: client);
 
     expect(await service.recuperarPassword('ada@example.com'), '123456');
   });
@@ -127,13 +127,13 @@ void main() {
         200,
       );
     });
-    final service = auth_service(client: client);
+    final service = AuthService(client: client);
 
     await service.cambiarPassword('123456', 'new-password');
   });
 
   test('propagates recovery endpoint errors', () async {
-    final service = auth_service(
+    final service = AuthService(
       client: MockClient(
         (_) async =>
             http.Response(jsonEncode({'detail': 'Usuario no encontrado'}), 404),
@@ -147,7 +147,7 @@ void main() {
   });
 
   test('propagates invalid recovery token errors', () async {
-    final service = auth_service(
+    final service = AuthService(
       client: MockClient(
         (_) async => http.Response(
           jsonEncode({'detail': 'Token inválido o vencido'}),
@@ -178,7 +178,7 @@ void main() {
           200,
         );
       });
-      final service = auth_service(client: client, storage: storage);
+      final service = AuthService(client: client, storage: storage);
 
       await service.cambiarPasswordAutenticado('old-password', 'new-password');
     },
@@ -188,7 +188,7 @@ void main() {
     'clears the session when authenticated password change returns 401',
     () async {
       final storage = MemoryTokenStorage()..token = 'expired-token';
-      final service = auth_service(
+      final service = AuthService(
         client: MockClient(
           (_) async =>
               http.Response(jsonEncode({'detail': 'Token inválido'}), 401),

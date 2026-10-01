@@ -18,7 +18,7 @@ class cambiarContraView extends StatefulWidget {
   final bool modoRecuperacion;
   final String? correoRecuperacion;
   final String? tokenRecuperacion;
-  final auth_service? authService;
+  final AuthService? authService;
 
   @override
   State<cambiarContraView> createState() => _cambiarContraViewState();
@@ -28,7 +28,7 @@ class _cambiarContraViewState extends State<cambiarContraView> {
   final _contrasenaActualControlador = TextEditingController();
   final _contrasenaNuevaControlador = TextEditingController();
   final _contrasenaCofirmarControlador = TextEditingController();
-  late final auth_service _authService = widget.authService ?? auth_service();
+  late final AuthService _authService = widget.authService ?? AuthService();
   bool _estaCargando = false;
 
   @override

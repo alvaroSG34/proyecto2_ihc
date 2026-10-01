@@ -23,7 +23,7 @@ class EmptyTokenStorage implements TokenStorage {
 
 void main() {
   testWidgets('shows login when there is no saved token', (tester) async {
-    final service = auth_service(storage: EmptyTokenStorage());
+    final service = AuthService(storage: EmptyTokenStorage());
 
     await tester.pumpWidget(MyApp(authService: service));
     await tester.pumpAndSettle();
