@@ -5,6 +5,7 @@ import '../../models/usuario.dart';
 import '../../services/auth_service.dart';
 import '../autenticacion/cambiar_contraseña.dart';
 import '../autenticacion/login_view.dart';
+import '../partido_view/list_partidoview.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key, required this.user, required this.authService});
@@ -70,6 +71,13 @@ class HomeView extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyLarge
                       ?.copyWith(color: Blueslate),
                   textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const ListPartidoView()),
+                  ),
+                  child: const Text('Mis partidos'),
                 ),
               ],
             ),
