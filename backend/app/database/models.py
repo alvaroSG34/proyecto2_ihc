@@ -10,33 +10,15 @@ class Usuario(Base):
     __tablename__ = "usuarios"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-
-    nombre: Mapped[str] = mapped_column(
-        String(100)
-    )
-
-    email: Mapped[str] = mapped_column(
-        String(120),
-        unique=True
-    )
-
-    password_hash: Mapped[str] = mapped_column(
-        String(255)
-    )
-
-    telefono: Mapped[str | None] = mapped_column(
-        String(20),
-        nullable=True
-    )
-
+    nombre: Mapped[str] = mapped_column(String(100))
+    email: Mapped[str] = mapped_column(String(120), unique=True)
+    password_hash: Mapped[str] = mapped_column(String(255))
+    telefono: Mapped[str | None] = mapped_column(String(20), nullable=True)
     token_recuperacion: Mapped[str | None] = mapped_column(
-        String(255),
-        nullable=True
+        String(255), nullable=True
     )
-
     token_expiracion: Mapped[datetime | None] = mapped_column(
-        DateTime(timezone=True),
-        nullable=True
+        DateTime(timezone=True), nullable=True
     )
 
     partidos: Mapped[list["Partido"]] = relationship(
@@ -49,39 +31,21 @@ class Partido(Base):
     __tablename__ = "partidos"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-
     usuario_id: Mapped[int] = mapped_column(
         ForeignKey("usuarios.id"),
         nullable=False,
         index=True,
     )
-
-    nombre: Mapped[str] = mapped_column(
-        String(100)
-    )
-
+    nombre: Mapped[str] = mapped_column(String(100))
     cantidad_jugadores: Mapped[int] = mapped_column(
         Integer,
         nullable=False,
         default=0,
     )
-
-    
-    ubicacion: Mapped[str] = mapped_column(
-        String(255)
-    )
-
-    tiempo_min: Mapped[str | None] = mapped_column(
-        String(20),
-        nullable=True
-    )
-
+    ubicacion: Mapped[str] = mapped_column(String(255))
+    tiempo_min: Mapped[str | None] = mapped_column(String(20), nullable=True)
     fecha: Mapped[datetime | None] = mapped_column(
-        DateTime(timezone=True),
-        nullable=True
+        DateTime(timezone=True), nullable=True
     )
 
-    usuario: Mapped[Usuario] = relationship(
-        back_populates="partidos"
-    )
-    
+    usuario: Mapped[Usuario] = relationship(back_populates="partidos")

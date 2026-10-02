@@ -3,98 +3,76 @@ from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
 from app.database.models import Usuario
-from app.modules.auth.service import get_current_user
-from app.modules.partidos.schemas import (
-    PartidoCreate,
-    PartidoResponse,
-    PartidoUpdate,
-)
+from app.modules.auth.service import current_user
+from app.modules.partidos.schemas import MatchData, MatchResponse, MatchUpdate
 from app.modules.partidos.service import (
-    actualizar_partido,
-    crear_partido,
-    eliminar_partido,
-    listar_partidos,
-    obtener_partido,
+    create_match,
+    delete_match,
+    find_match,
+    list_matches,
+    update_match,
 )
 
 
 router = APIRouter(prefix="/api/partidos", tags=["Partidos"])
 
 
-def partido_no_encontrado() -> HTTPException:
+def not_found() -> HTTPException:
     return HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
         detail="Partido no encontrado",
     )
 
 
-@router.post(
-    "",
-    response_model=PartidoResponse,
-    status_code=status.HTTP_201_CREATED,
-)
-def crear(
-    datos: PartidoCreate,
+@router.post("", response_model=MatchResponse, status_code=status.HTTP_201_CREATED)
+def create(
+    data: MatchData,
     db: Session = Depends(get_db),
-    usuario: Usuario = Depends(get_current_user),
-) -> PartidoResponse:
-    return crear_partido(datos, usuario, db)
+    user: Usuario = Depends(current_user),
+):
+    return create_match(data, user, db)
 
 
-@router.get("", response_model=list[PartidoResponse])
-def listar(
+@router.get("", response_model=list[MatchResponse])
+def list_all(
     db: Session = Depends(get_db),
-    usuario: Usuario = Depends(get_current_user),
-) -> list[PartidoResponse]:
-    return listar_partidos(usuario, db)
+    user: Usuario = Depends(current_user),
+):
+    return list_matches(user, db)
 
 
-@router.get("/mis-partidos", response_model=list[PartidoResponse])
-def mis_partidos(
+@router.get("/{match_id}", response_model=MatchResponse)
+def get(
+    match_id: int,
     db: Session = Depends(get_db),
-    usuario: Usuario = Depends(get_current_user),
-) -> list[PartidoResponse]:
-    return listar_partidos(usuario, db)
+    user: Usuario = Depends(current_user),
+):
+    match = find_match(match_id, user, db)
+    if not match:
+        raise not_found()
+    return match
 
 
-@router.get("/{partido_id}", response_model=PartidoResponse)
-def obtener(
-    partido_id: int,
+@router.put("/{match_id}", response_model=MatchResponse)
+def update(
+    match_id: int,
+    data: MatchUpdate,
     db: Session = Depends(get_db),
-    usuario: Usuario = Depends(get_current_user),
-) -> PartidoResponse:
-    partido = obtener_partido(partido_id, usuario, db)
-    if partido is None:
-        raise partido_no_encontrado()
+    user: Usuario = Depends(current_user),
+):
+    match = find_match(match_id, user, db)
+    if not match:
+        raise not_found()
+    return update_match(match, data, db)
 
-    return partido
 
-
-@router.put("/{partido_id}", response_model=PartidoResponse)
-def actualizar(
-    partido_id: int,
-    datos: PartidoUpdate,
+@router.delete("/{match_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete(
+    match_id: int,
     db: Session = Depends(get_db),
-    usuario: Usuario = Depends(get_current_user),
-) -> PartidoResponse:
-    partido = obtener_partido(partido_id, usuario, db)
-    if partido is None:
-        raise partido_no_encontrado()
-
-    return actualizar_partido(partido, datos, db)
-
-
-@router.delete(
-    "/{partido_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
-)
-def eliminar(
-    partido_id: int,
-    db: Session = Depends(get_db),
-    usuario: Usuario = Depends(get_current_user),
-) -> None:
-    partido = obtener_partido(partido_id, usuario, db)
-    if partido is None:
-        raise partido_no_encontrado()
-
-    eliminar_partido(partido, db)
+    user: Usuario = Depends(current_user),
+):
+    match = find_match(match_id, user, db)
+    if not match:
+        raise not_found()
+    delete_match(match, db)

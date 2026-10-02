@@ -2,6 +2,7 @@
 
 Aplicación para crear partidos y completar equipos.
 
+
 ## Iniciar el backend
 
 Primero crea el entorno virtual:
@@ -47,7 +48,7 @@ pip install "psycopg[binary]"
 python -c "import secrets; print(secrets.token_urlsafe(32))"
 
 # JWT Encriptacion
-pip install "passlib[bcrypt]" pyjwt python-multipart
+pip install pyjwt python-multipart
 
 # PARA CAMBIOS EN LA BASE DE DATOS
 alembic revision --autogenerate -m "describe el cambio"

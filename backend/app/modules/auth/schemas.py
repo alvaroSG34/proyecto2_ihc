@@ -1,11 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class UsuarioCreate(BaseModel):
-    nombre: str
-    email: str
-    password: str
-    telefono: str | None = None
+    nombre: str = Field(min_length=1, max_length=100)
+    email: str = Field(min_length=3, max_length=120)
+    password: str = Field(min_length=6, max_length=72)
+    telefono: str | None = Field(default=None, max_length=20)
 
 
 class UsuarioResponse(BaseModel):
@@ -14,26 +14,26 @@ class UsuarioResponse(BaseModel):
     email: str
 
 
-class AuthTokenResponse(BaseModel):
+class AuthResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     usuario: UsuarioResponse
 
 
-class LoginRequest(BaseModel):
-    email: str
-    password: str
+class LoginData(BaseModel):
+    email: str = Field(min_length=3, max_length=120)
+    password: str = Field(min_length=1, max_length=72)
 
 
-class RecuperarPassword(BaseModel):
-    email: str
+class RecoveryData(BaseModel):
+    email: str = Field(min_length=3, max_length=120)
 
 
-class CambiarPassword(BaseModel):
-    token: str
-    nueva_password: str
+class NewPasswordData(BaseModel):
+    token: str = Field(min_length=1)
+    nueva_password: str = Field(min_length=6, max_length=72)
 
 
-class CambiarPasswordAutenticado(BaseModel):
-    contrasena_actual: str
-    nueva_password: str
+class PasswordData(BaseModel):
+    contrasena_actual: str = Field(min_length=1, max_length=72)
+    nueva_password: str = Field(min_length=6, max_length=72)

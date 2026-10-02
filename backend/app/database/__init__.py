@@ -1,1 +1,5 @@
-"""Conexión y modelos de persistencia."""
+"""base de datos"""
+
+from app.database.connection import Base, get_db
+
+__all__ = ["Base", "get_db"]

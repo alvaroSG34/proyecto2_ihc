@@ -9,7 +9,7 @@ from alembic import context
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-from app.core.config import settings
+from app.config import settings
 from app.database.connection import Base
 from app.database import models
 
