@@ -39,7 +39,13 @@ class AuthService {
 
   Future<Usuario> login(String email, String password) async {
     final body = LoginRequest(email: email, password: password).toJson();
-    return _authenticate('login', body, expectedStatus: 200);
+    final response = await _client.post(
+      Uri.parse('$_baseUrl/api/auth/login'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(body),
+    );
+
+    return _guardarRespuestaAuth(response, 200);
   }
 
   Future<Usuario> registro(
@@ -54,21 +60,20 @@ class AuthService {
       password: password,
       telefono: telefono,
     ).toJson();
-    return _authenticate('registro', body, expectedStatus: 201);
-  }
-
-  Future<Usuario> _authenticate(
-    String path,
-    Map<String, dynamic> body, {
-    required int expectedStatus,
-  }) async {
     final response = await _client.post(
-      Uri.parse('$_baseUrl/api/auth/$path'),
+      Uri.parse('$_baseUrl/api/auth/registro'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
     );
 
-    if (response.statusCode != expectedStatus) {
+    return _guardarRespuestaAuth(response, 201);
+  }
+
+  Future<Usuario> _guardarRespuestaAuth(
+    http.Response response,
+    int codigoEsperado,
+  ) async {
+    if (response.statusCode != codigoEsperado) {
       throw Exception(obtener_mensaje_error(response.body));
     }
 

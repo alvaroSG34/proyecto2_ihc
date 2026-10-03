@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../models/partido.dart';
 import '../../services/partido.dart';
+import '../../widgets/mensaje.dart';
+import 'formulario_partido.dart';
 
 class ListPartidoView extends StatefulWidget {
   const ListPartidoView({super.key, this.partidoService});
@@ -35,20 +37,10 @@ class _ListPartidoViewState extends State<ListPartidoView> {
         partidos = resultado;
       });
     } catch (error) {
-      mostrarMensaje(error.toString());
+      if (mounted) mostrarMensaje(context, error.toString());
     } finally {
-      setState(() {
-        cargando = false;
-      });
+      if (mounted) setState(() => cargando = false);
     }
-  }
-
-  void mostrarMensaje(String mensaje) {
-    if (!mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(mensaje.replaceFirst('Exception: ', ''))),
-    );
   }
 
   Future<void> abrirFormulario({Partido? partido}) async {
@@ -84,9 +76,9 @@ class _ListPartidoViewState extends State<ListPartidoView> {
       }
 
       await cargarPartidos();
-      mostrarMensaje('Partido guardado');
+      if (mounted) mostrarMensaje(context, 'Partido guardado');
     } catch (error) {
-      mostrarMensaje(error.toString());
+      if (mounted) mostrarMensaje(context, error.toString());
     }
   }
 
@@ -114,9 +106,9 @@ class _ListPartidoViewState extends State<ListPartidoView> {
     try {
       await partidoService.eliminar(partido.id);
       await cargarPartidos();
-      mostrarMensaje('Partido eliminado');
+      if (mounted) mostrarMensaje(context, 'Partido eliminado');
     } catch (error) {
-      mostrarMensaje(error.toString());
+      if (mounted) mostrarMensaje(context, error.toString());
     }
   }
 
@@ -167,146 +159,6 @@ class _ListPartidoViewState extends State<ListPartidoView> {
         onPressed: () => abrirFormulario(),
         child: const Icon(Icons.add),
       ),
-    );
-  }
-}
-
-class FormularioPartido extends StatefulWidget {
-  const FormularioPartido({super.key, this.partido});
-
-  final Partido? partido;
-
-  @override
-  State<FormularioPartido> createState() => _FormularioPartidoState();
-}
-
-class _FormularioPartidoState extends State<FormularioPartido> {
-  late final TextEditingController nombreController;
-  late final TextEditingController ubicacionController;
-  late final TextEditingController cantidadJugadoresController;
-  late final TextEditingController tiempoController;
-  DateTime? fecha;
-
-  @override
-  void initState() {
-    super.initState();
-    nombreController = TextEditingController(text: widget.partido?.nombre);
-    ubicacionController = TextEditingController(
-      text: widget.partido?.ubicacion,
-    );
-    cantidadJugadoresController = TextEditingController(
-      text: widget.partido?.cantidadJugadores.toString(),
-    );
-    tiempoController = TextEditingController(text: widget.partido?.tiempoMin);
-    fecha = widget.partido?.fecha;
-  }
-
-  @override
-  void dispose() {
-    nombreController.dispose();
-    ubicacionController.dispose();
-    cantidadJugadoresController.dispose();
-    tiempoController.dispose();
-    super.dispose();
-  }
-
-  Future<void> seleccionarFecha() async {
-    final fechaSeleccionada = await showDatePicker(
-      context: context,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2035),
-      initialDate: fecha ?? DateTime.now(),
-    );
-
-    if (fechaSeleccionada != null) {
-      setState(() {
-        fecha = fechaSeleccionada;
-      });
-    }
-  }
-
-  void guardar() {
-    final cantidadJugadores = int.tryParse(
-      cantidadJugadoresController.text.trim(),
-    );
-
-    if (nombreController.text.isEmpty ||
-        ubicacionController.text.isEmpty ||
-        cantidadJugadores == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Completa el nombre, la ubicación y la cantidad de jugadores',
-          ),
-        ),
-      );
-      return;
-    }
-
-    Navigator.pop(context, {
-      'nombre': nombreController.text,
-      'cantidadJugadores': cantidadJugadores,
-      'ubicacion': ubicacionController.text,
-      'tiempoMin': tiempoController.text.isEmpty ? null : tiempoController.text,
-      'fecha': fecha,
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final editando = widget.partido != null;
-
-    return AlertDialog(
-      title: Text(editando ? 'Editar partido' : 'Nuevo partido'),
-      content: SingleChildScrollView(
-        child: Column(
-          children: [
-            TextField(
-              controller: nombreController,
-              decoration: const InputDecoration(labelText: 'Nombre'),
-            ),
-            TextField(
-              controller: ubicacionController,
-              decoration: const InputDecoration(labelText: 'Ubicación'),
-            ),
-            TextField(
-              controller: cantidadJugadoresController,
-              decoration: const InputDecoration(
-                labelText: 'Cantidad de jugadores',
-              ),
-              keyboardType: TextInputType.number,
-            ),
-            TextField(
-              controller: tiempoController,
-              decoration: const InputDecoration(labelText: 'Tiempo en minutos'),
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    fecha == null
-                        ? 'Sin fecha'
-                        : '${fecha!.day}/${fecha!.month}/${fecha!.year}',
-                  ),
-                ),
-                TextButton(
-                  onPressed: seleccionarFecha,
-                  child: const Text('Elegir fecha'),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancelar'),
-        ),
-        ElevatedButton(onPressed: guardar, child: const Text('Guardar')),
-      ],
     );
   }
 }

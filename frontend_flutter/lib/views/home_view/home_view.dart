@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../consts/color.dart';
 import '../../models/usuario.dart';
 import '../../services/auth_service.dart';
+import '../../widgets/boton_guardar.dart';
 import '../autenticacion/cambiar_contraseña.dart';
 import '../autenticacion/login_view.dart';
 import '../partido_view/list_partidoview.dart';
@@ -19,8 +20,6 @@ class HomeView extends StatelessWidget {
       backgroundColor: white,
       appBar: AppBar(
         title: const Text('Inicio'),
-        backgroundColor: white,
-        foregroundColor: Jetblack,
         actions: [
           IconButton(
             tooltip: 'Cambiar contraseña',
@@ -73,11 +72,11 @@ class HomeView extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () => Navigator.of(context).push(
+                BotonGuardar(
+                  texto: 'Mis partidos',
+                  alPresionar: () => Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const ListPartidoView()),
                   ),
-                  child: const Text('Mis partidos'),
                 ),
               ],
             ),

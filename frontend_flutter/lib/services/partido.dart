@@ -19,11 +19,10 @@ class PartidoService {
     };
   }
 
+  Uri url(String ruta) => Uri.parse('$apiBaseUrl/api/partidos$ruta');
+
   Future<List<Partido>> listar() async {
-    final response = await client.get(
-      Uri.parse('$apiBaseUrl/api/partidos'),
-      headers: await headers(),
-    );
+    final response = await client.get(url(''), headers: await headers());
 
     if (response.statusCode != 200) {
       throw Exception('No se pudieron cargar los partidos');
@@ -34,22 +33,9 @@ class PartidoService {
     return lista.map((partido) => Partido.fromJson(partido)).toList();
   }
 
-  Future<Partido> obtener(int id) async {
-    final response = await client.get(
-      Uri.parse('$apiBaseUrl/api/partidos/$id'),
-      headers: await headers(),
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('No se pudo encontrar el partido');
-    }
-
-    return Partido.fromJson(jsonDecode(response.body));
-  }
-
   Future<Partido> crear(PartidoCreateRequest datos) async {
     final response = await client.post(
-      Uri.parse('$apiBaseUrl/api/partidos'),
+      url(''),
       headers: await headers(),
       body: jsonEncode(datos.toJson()),
     );
@@ -63,7 +49,7 @@ class PartidoService {
 
   Future<Partido> actualizar(int id, PartidoUpdateRequest datos) async {
     final response = await client.put(
-      Uri.parse('$apiBaseUrl/api/partidos/$id'),
+      url('/$id'),
       headers: await headers(),
       body: jsonEncode(datos.toJson()),
     );
@@ -76,10 +62,7 @@ class PartidoService {
   }
 
   Future<void> eliminar(int id) async {
-    final response = await client.delete(
-      Uri.parse('$apiBaseUrl/api/partidos/$id'),
-      headers: await headers(),
-    );
+    final response = await client.delete(url('/$id'), headers: await headers());
 
     if (response.statusCode != 204) {
       throw Exception('No se pudo eliminar el partido');

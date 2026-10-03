@@ -117,7 +117,6 @@ class _cambiarContraViewState extends State<cambiarContraView> {
               ? 'Restablecer contraseña'
               : 'Cambiar contraseña',
         ),
-        backgroundColor: white,
       ),
       body: SafeArea(
         child: Column(

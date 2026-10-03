@@ -76,10 +76,7 @@ class _OlvideContrasenaViewState extends State<OlvideContrasenaView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      appBar: AppBar(
-        title: const Text('Recuperar contraseña'),
-        backgroundColor: white,
-      ),
+      appBar: AppBar(title: const Text('Recuperar contraseña')),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24),

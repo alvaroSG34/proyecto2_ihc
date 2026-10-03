@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'models/usuario.dart';
 import 'services/auth_service.dart';
+import 'theme/app_theme.dart';
 import 'views/home_view/home_view.dart';
 import 'views/autenticacion/login_view.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Inicio',
+      theme: temaPrincipal,
       home: SessionGate(authService: authService),
     );
   }

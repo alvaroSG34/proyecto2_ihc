@@ -26,15 +26,6 @@ class Partido {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'nombre': nombre,
-    'cantidad_jugadores': cantidadJugadores,
-    'ubicacion': ubicacion,
-    'tiempo_min': tiempoMin,
-    'fecha': fecha?.toIso8601String(),
-  };
-
   static DateTime? _parseFecha(Object? value) {
     if (value == null) return null;
     if (value is! String) {
