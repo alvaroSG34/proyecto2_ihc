@@ -112,6 +112,20 @@ class _ListPartidoViewState extends State<ListPartidoView> {
     }
   }
 
+  Future<void> completarEquipo(Partido partido) async {
+    try {
+      await partidoService.completarEquipo(partido.id);
+      await cargarPartidos();
+      if (mounted) {
+        mostrarMensaje(context, 'Equipo completado');
+      }
+    } catch (error) {
+      if (mounted) {
+        mostrarMensaje(context, error.toString());
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,20 +148,31 @@ class _ListPartidoViewState extends State<ListPartidoView> {
                       subtitle: Text(
                         '${partido.ubicacion}\n'
                         'Jugadores: ${partido.cantidadJugadores}\n'
-                        'Duración: ${partido.tiempoMin ?? 'No definida'}',
+                        'Duración: ${partido.tiempoMin ?? 'No definida'}\n'
+                        'Estado: ${partido.estado}',
                       ),
-                      isThreeLine: true,
+                      //isThreeLine: true,
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          IconButton(
-                            onPressed: () => abrirFormulario(partido: partido),
-                            icon: const Icon(Icons.edit),
-                          ),
-                          IconButton(
-                            onPressed: () => borrarPartido(partido),
-                            icon: const Icon(Icons.delete),
-                          ),
+                          if (partido.estado == 'Cupos abiertos')
+                              IconButton(
+                                onPressed: () => completarEquipo(partido),
+                                icon: const Icon(Icons.check),
+                                tooltip: 'Completar equipo',
+                              ),
+
+                            // Botón editar
+                            IconButton(
+                              onPressed: () => abrirFormulario(partido: partido),
+                              icon: const Icon(Icons.edit),
+                            ),
+
+                            // Botón eliminar
+                            IconButton(
+                              onPressed: () => borrarPartido(partido),
+                              icon: const Icon(Icons.delete),
+                            ),
                         ],
                       ),
                     ),

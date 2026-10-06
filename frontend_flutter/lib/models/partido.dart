@@ -5,6 +5,7 @@ class Partido {
   final String ubicacion;
   final String? tiempoMin;
   final DateTime? fecha;
+  final String estado;
 
   const Partido({
     required this.id,
@@ -13,6 +14,7 @@ class Partido {
     required this.ubicacion,
     this.tiempoMin,
     this.fecha,
+    required this.estado,
   });
 
   factory Partido.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Partido {
       ubicacion: json['ubicacion'] as String,
       tiempoMin: json['tiempo_min'] as String?,
       fecha: _parseFecha(json['fecha']),
+      estado: json['estado'] as String,
     );
   }
 

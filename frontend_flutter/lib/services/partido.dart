@@ -68,4 +68,19 @@ class PartidoService {
       throw Exception('No se pudo eliminar el partido');
     }
   }
+
+  Future<Partido> completarEquipo(int id) async {
+    final response = await client.patch(
+      url('/$id/completar'),
+      headers: await headers(),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('No se pudo completar el equipo');
+    }
+
+    return Partido.fromJson(
+      jsonDecode(response.body),
+    );
+  }
 }
