@@ -53,3 +53,16 @@ pip install pyjwt python-multipart
 # PARA CAMBIOS EN LA BASE DE DATOS
 alembic revision --autogenerate -m "describe el cambio"
 alembic upgrade head
+
+# para hacer las pruebas unitarias
+python -m pytest -v
+
+
+
+SELECT id, nombre, cantidad_jugadores
+FROM partidos
+WHERE cantidad_jugadores < 1;
+
+UPDATE partidos
+SET cantidad_jugadores = 10
+WHERE id = 1;

@@ -11,6 +11,7 @@ from app.modules.partidos.service import (
     find_match,
     list_matches,
     update_match,
+    complete_team,
 )
 
 
@@ -76,3 +77,22 @@ def delete(
     if not match:
         raise not_found()
     delete_match(match, db)
+
+
+@router.patch("/{match_id}/completar", response_model=MatchResponse)
+def completar_equipo(
+    match_id: int,
+    db: Session = Depends(get_db),
+    user: Usuario = Depends(current_user),
+):
+    match = find_match(match_id, user, db)
+    if not match:
+        raise not_found()
+    try:
+        return complete_team(match, db)
+
+    except ValueError as error:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(error),
+        )

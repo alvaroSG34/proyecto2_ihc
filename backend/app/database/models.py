@@ -48,4 +48,11 @@ class Partido(Base):
         DateTime(timezone=True), nullable=True
     )
 
+    estado: Mapped[str] = mapped_column(
+        String(20),
+        nullable=False,
+        default="Cupos abiertos",
+        server_default="Cupos abiertos",
+    )
+
     usuario: Mapped[Usuario] = relationship(back_populates="partidos")

@@ -1,5 +1,5 @@
 """modulo de partidos"""
 
-from app.modules.partidos.router import router
+#from app.modules.partidos.router import router
 
-__all__ = ["router"]
+#__all__ = ["router"]

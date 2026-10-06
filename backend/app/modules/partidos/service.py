@@ -1,5 +1,7 @@
 """juan. Aqui estan los servicios para hacer un crud, crea, actualiza, edita y elimina los partidoss"""
 
+from re import match
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -57,3 +59,14 @@ def update_match(match: Partido, data: MatchUpdate, db: Session) -> Partido:
 def delete_match(match: Partido, db: Session) -> None:
     db.delete(match)
     db.commit()
+
+
+
+def complete_team(match: Partido, db: Session) -> Partido:
+    if match.estado != "Cupos abiertos":
+        raise ValueError("El equipo ya esta completo")
+    match.estado = "equipo completo"
+    db.commit()
+    db.refresh(match)
+
+    return match

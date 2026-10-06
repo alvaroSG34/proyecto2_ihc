@@ -23,3 +23,5 @@ class MatchResponse(MatchData):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    estado: str 
+
