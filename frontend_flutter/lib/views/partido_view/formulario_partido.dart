@@ -18,6 +18,7 @@ class _FormularioPartidoState extends State<FormularioPartido> {
   late final TextEditingController ubicacionController;
   late final TextEditingController cantidadJugadoresController;
   late final TextEditingController tiempoController;
+  late final TextEditingController estadoController;
   final formularioKey = GlobalKey<FormState>();
   DateTime? fecha;
 
@@ -32,6 +33,7 @@ class _FormularioPartidoState extends State<FormularioPartido> {
       text: widget.partido?.cantidadJugadores.toString(),
     );
     tiempoController = TextEditingController(text: widget.partido?.tiempoMin);
+    estadoController = TextEditingController(text: widget.partido?.estado);
     fecha = widget.partido?.fecha;
   }
 
@@ -54,6 +56,20 @@ class _FormularioPartidoState extends State<FormularioPartido> {
 
     if (fechaSeleccionada != null) {
       setState(() => fecha = fechaSeleccionada);
+    }
+  }
+
+  void restarjugadores() {
+    final cantidad = int.tryParse(cantidadJugadoresController.text.trim());
+    if (cantidad != null && cantidad > 1) {
+      cantidadJugadoresController.text = (cantidad - 1).toString();
+    }
+  }
+
+  void sumarjugadores() {
+    final cantidad = int.tryParse(cantidadJugadoresController.text.trim());
+    if (cantidad != null && cantidad < 50) {
+      cantidadJugadoresController.text = (cantidad + 1).toString();
     }
   }
 
@@ -83,10 +99,12 @@ class _FormularioPartidoState extends State<FormularioPartido> {
       'fecha': fecha,
     });
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     final editando = widget.partido != null;
+    final equipoCompleto =
+        widget.partido?.estado.trim().toLowerCase() == 'equipo completo';
 
     return AlertDialog(
       title: Text(editando ? 'Editar partido' : 'Nuevo partido'),
@@ -105,16 +123,48 @@ class _FormularioPartidoState extends State<FormularioPartido> {
                 etiqueta: 'Ubicacion',
                 validator: validarTexto,
               ),
-              Input(
-                controlador: cantidadJugadoresController,
-                etiqueta: 'Cantidad de jugadores',
-                tipoTeclado: TextInputType.number,
-                validator: validarCantidad,
-              ),
+              Row(children: [
+                TextButton(
+                  onPressed: equipoCompleto ? null : restarjugadores,
+                  child: const Text('-'),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Input(
+                        controlador: cantidadJugadoresController,
+                        etiqueta: 'Cantidad de jugadores',
+                        soloLectura: equipoCompleto,
+                        validator: validarCantidad,
+                      ),
+                      if (equipoCompleto) ...[
+                        Text(
+                          'no se puede modificar porque el equipo ya esta completo',
+                          style: TextStyle(
+                            color: Colors.red.shade700,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: equipoCompleto ? null : sumarjugadores,
+                  child: const Text('+'),
+                ),
+              ],),
+          
               Input(
                 controlador: tiempoController,
                 etiqueta: 'Tiempo en minutos',
-                tipoTeclado: TextInputType.number,
+          
+              ),
+              Input(
+                controlador: estadoController,
+                etiqueta: 'Estado',
+                soloLectura: true,
               ),
               const SizedBox(height: 12),
               Row(

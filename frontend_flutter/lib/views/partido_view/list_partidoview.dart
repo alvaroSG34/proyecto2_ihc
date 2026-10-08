@@ -155,24 +155,28 @@ class _ListPartidoViewState extends State<ListPartidoView> {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if (partido.estado == 'Cupos abiertos')
-                              IconButton(
-                                onPressed: () => completarEquipo(partido),
-                                icon: const Icon(Icons.check),
-                                tooltip: 'Completar equipo',
+                          if (partido.estado.trim().toLowerCase() ==
+                              'cupos abiertos')
+                            ElevatedButton(
+                              onPressed: () => completarEquipo(partido),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                foregroundColor: Colors.white,
                               ),
-
-                            // Botón editar
-                            IconButton(
-                              onPressed: () => abrirFormulario(partido: partido),
-                              icon: const Icon(Icons.edit),
+                              child: const Text('Completar Equipo'),
                             ),
 
-                            // Botón eliminar
-                            IconButton(
-                              onPressed: () => borrarPartido(partido),
-                              icon: const Icon(Icons.delete),
-                            ),
+                          // Botón editar
+                          IconButton(
+                            onPressed: () => abrirFormulario(partido: partido),
+                            icon: const Icon(Icons.edit),
+                          ),
+
+                          // Botón eliminar
+                          IconButton(
+                            onPressed: () => borrarPartido(partido),
+                            icon: const Icon(Icons.delete),
+                          ),
                         ],
                       ),
                     ),
