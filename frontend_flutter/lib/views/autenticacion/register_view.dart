@@ -94,7 +94,6 @@ class _RegisterViewState extends State<RegisterView> {
                         etiqueta: 'Email',
                         controlador: _email_controlador,
                         placeholder: 'correo@ejemplo.com',
-                        tipoTeclado: TextInputType.emailAddress,
                       ),
 
                       Input(
@@ -108,7 +107,6 @@ class _RegisterViewState extends State<RegisterView> {
                         etiqueta: 'Teléfono',
                         controlador: _telefono_controlador,
                         placeholder: '00000000',
-                        tipoTeclado: TextInputType.phone,
                       ),
                       const SizedBox(height: 33),
                       Center(

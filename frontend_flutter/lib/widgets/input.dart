@@ -6,7 +6,6 @@ class Input extends StatelessWidget {
     required this.etiqueta,
     required this.controlador,
     this.placeholder,
-    this.tipoTeclado,
     this.soloLectura = false,
     this.ocultarTexto = false,
     this.validator,
@@ -15,7 +14,6 @@ class Input extends StatelessWidget {
   final String etiqueta;
   final TextEditingController controlador;
   final String? placeholder;
-  final TextInputType? tipoTeclado;
   final bool soloLectura;
   final bool ocultarTexto;
   final FormFieldValidator<String>? validator;
@@ -31,13 +29,19 @@ class Input extends StatelessWidget {
           constraints: const BoxConstraints(minHeight: 52),
           child: TextFormField(
             controller: controlador,
-            keyboardType: tipoTeclado,
             readOnly: soloLectura,
+            style: TextStyle(
+              color: soloLectura ? const Color.fromARGB(255, 56, 56, 56) : null,
+            ),
             obscureText: ocultarTexto,
             enableSuggestions: !ocultarTexto,
             autocorrect: !ocultarTexto,
             validator: validator,
-            decoration: InputDecoration(hintText: placeholder),
+            decoration: InputDecoration(
+              hintText: placeholder,
+              filled: soloLectura,
+              fillColor: soloLectura ? Colors.grey.shade200 : null,
+            ),
           ),
         ),
       ],

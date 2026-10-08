@@ -96,7 +96,6 @@ class _OlvideContrasenaViewState extends State<OlvideContrasenaView> {
                 etiqueta: 'Email',
                 controlador: _correoControlador,
                 placeholder: 'correo@ejemplo.com',
-                tipoTeclado: TextInputType.emailAddress,
                 soloLectura: _codigoEnviado,
               ),
               if (_codigoEnviado)
@@ -104,7 +103,6 @@ class _OlvideContrasenaViewState extends State<OlvideContrasenaView> {
                   etiqueta: 'Codigo de verificacion',
                   controlador: _codigoControlador,
                   placeholder: '123456',
-                  tipoTeclado: TextInputType.number,
                 ),
               const SizedBox(height: 17),
               Center(

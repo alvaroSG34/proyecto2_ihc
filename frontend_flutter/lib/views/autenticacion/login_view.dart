@@ -86,7 +86,6 @@ class _LoginViewState extends State<LoginView> {
                         etiqueta: 'Email',
                         controlador: _email_controlador,
                         placeholder: 'correo@ejemplo.com',
-                        tipoTeclado: TextInputType.emailAddress,
                       ),
 
                       Input(
